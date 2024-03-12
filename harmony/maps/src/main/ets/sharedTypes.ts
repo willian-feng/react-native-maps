@@ -1,3 +1,25 @@
+/*
+ * Copyright (C) 2024 Huawei Device Co., Ltd.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
 export const TAG = '[liwang-native]';
 
 export type Provider = 'google' | undefined;
@@ -15,19 +37,13 @@ export type Address = {
   postalCode: String,
   countryCode: String,
   country: String,
-}
+};
 export type MapStyleElement = {
   featureType?: string;
   elementType?: string;
   stylers: object[];
 };
 export type EdgePadding = {
-  // constructor() {
-  //   this.top = 0;
-  //   this.right = 0;
-  //   this.bottom = 0;
-  //   this.left = 0;
-  // }
   top: number;
   right: number;
   bottom: number;
@@ -126,7 +142,8 @@ export class ColorMap{
     this.colorMap.set("cyan", "#ff00ffff")
     this.colorMap.set("cyan", "#ff00ffff")
   }
-}
+};
+
 export type GeoJSON = {
   type: 'FeatureCollection',
   features: [
@@ -139,87 +156,18 @@ export type GeoJSON = {
       }
     }
   ]
-}
-
-
-
-// export type CalloutPressEvent = NativeSyntheticEvent<{
-//   action: 'callout-press';
-//
-//   /**
-//    * @platform iOS
-//    */
-//   frame?: Frame;
-//
-//   /**
-//    * @platform iOS
-//    */
-//   id?: string;
-//
-//   /**
-//    * @platform iOS
-//    */
-//   point?: Point;
-//
-//   /**
-//    * @platform Android
-//    */
-//   coordinate?: LatLng;
-//
-//   /**
-//    * @platform Android
-//    */
-//   position?: Point;
-// }>;
-//
-// export type LineCapType = 'butt' | 'round' | 'square';
-// export type LineJoinType = 'miter' | 'round' | 'bevel';
-//
-// export type ClickEvent<T = {}> = NativeSyntheticEvent<
-// {coordinate: LatLng; position: Point} & T
-// >;
-//
-// export type MarkerDeselectEvent = Omit<
-// ClickEvent<{
-//   action: 'marker-deselect';
-//   id: string;
-// }>,
-// 'position'
-// >;
-//
-// export type MarkerSelectEvent = Omit<
-// ClickEvent<{id: string; action: 'marker-select'}>,
-// 'position'
-// >;
-//
-// export type MarkerDragEvent = ClickEvent<{
-//   /**
-//    * @platform iOS
-//    */
-//   id?: string;
-// }>;
-//
-// export type MarkerDragStartEndEvent = NativeSyntheticEvent<{
-//   coordinate: LatLng;
-//
-//   /**
-//    * @platform iOS
-//    */
-//   id?: string;
-//
-//   /**
-//    * @platform Android
-//    */
-//   position?: Point;
-// }>;
-//
-// export type MarkerPressEvent = NativeSyntheticEvent<{
-//   id: string;
-//   action: 'marker-press';
-//   coordinate: LatLng;
-//
-//   /**
-//    * @platform Android
-//    */
-//   position?: Point;
-// }>;
+};
+export type SnapshotOptions = {
+  /** optional, when omitted the view-width is used */
+  width?: number;
+  /** optional, when omitted the view-height is used */
+  height?: number;
+  /** __iOS only__, optional region to render */
+  region?: Region;
+  /** image formats, defaults to 'png' */
+  format?: 'png' | 'jpg';
+  /** image quality: 0..1 (only relevant for jpg, default: 1) */
+  quality?: number;
+  /** result types, defaults to 'file' */
+  result?: 'file' | 'base64';
+};

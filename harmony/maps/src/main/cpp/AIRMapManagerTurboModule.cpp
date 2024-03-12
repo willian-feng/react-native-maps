@@ -27,7 +27,7 @@ static jsi::Value __hostFunction_AIRMapManagerTurboModule_setCamera(jsi::Runtime
 
 static jsi::Value __hostFunction_AIRMapManagerTurboModule_takeSnapshot(jsi::Runtime &rt, react::TurboModule &turboModule,
                                                                     const jsi::Value *args, size_t count) {
-    return static_cast<ArkTSTurboModule &>(turboModule).call(rt, "takeSnapshot", args, count);
+    return static_cast<ArkTSTurboModule &>(turboModule).callAsync(rt, "takeSnapshot", args, count);
 }
 
 static jsi::Value __hostFunction_AIRMapManagerTurboModule_animateCamera(jsi::Runtime &rt, react::TurboModule &turboModule,
@@ -76,5 +76,5 @@ AIRMapManagerTurboModule::AIRMapManagerTurboModule(const ArkTSTurboModule::Conte
     methodMap_["getMapBoundaries"] = MethodMetadata{0, __hostFunction_AIRMapManagerTurboModule_getMapBoundaries};
     methodMap_["getAddressFromCoordinates"] = MethodMetadata{1, __hostFunction_AIRMapManagerTurboModule_getAddressFromCoordinates};
     
-    methodMap_["takeSnapshot"] = MethodMetadata{2, __hostFunction_AIRMapManagerTurboModule_takeSnapshot};
+    methodMap_["takeSnapshot"] = MethodMetadata{1, __hostFunction_AIRMapManagerTurboModule_takeSnapshot};
 }

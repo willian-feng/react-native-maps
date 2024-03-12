@@ -996,16 +996,8 @@ class MapView extends React.Component<MapViewProps, State> {
     }
     // @ts-ignore
     else if(Platform.OS === 'harmony'){
-      return new Promise((resolve, reject) => {
-          // @ts-ignore
-          this.MapViewNativeComponent_harmony.takeSnapshot(config, (err, snapshot) => {
-              if(err){
-                  reject(err);
-              }else{
-                  resolve(snapshot);
-              }
-          })
-      });
+      // @ts-ignore
+      return this.MapViewNativeComponent_harmony.takeSnapshot(config);
   }
     return Promise.reject('takeSnapshot not supported on this platform');
   }

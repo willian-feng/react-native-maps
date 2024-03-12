@@ -1,18 +1,37 @@
-import { map, mapCommon, site } from '@kit.MapKit';
-import {  AIRMapMarkerDescriptor,
-  AIRMapPolylineDescriptor,
-  AIRMapPolygonDescriptor,
-  AIRMapCircleDescriptor,
-  AIRMapCalloutDescriptor,
-  AIRMapCalloutSubviewDescriptor,
-  GeojsonDescriptor,
-  AIRMapWMSTileDescriptor,
-  AIRMapUrlTileDescriptor,
-  AIRMapOverlayDescriptor
-} from './AIRMaps/AIRMapDescriptorTypes';
+/*
+ * Copyright (C) 2024 Huawei Device Co., Ltd.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
+import { map, mapCommon, site, staticMap } from '@kit.MapKit';
+import { LWError, LWLog } from './LWLog';
 import {
   Address,
-  Camera, ColorMap, DEFAULT_ZOOM, EdgePadding, ImageURISource, LatLng, Region, TAG } from './sharedTypes';
+  Camera, ColorMap, DEFAULT_ZOOM, EdgePadding, ImageURISource, LatLng, Region,
+  SnapshotOptions,
+  TAG } from './sharedTypes';
+import { image } from '@kit.ImageKit';
+import { BusinessError } from '@kit.BasicServicesKit';
+import { util } from '@kit.ArkTS';
+import fs from '@ohos.file.fs';
+import { RNOHContext } from 'rnoh/ts';
 
 export class MapsTurboManager{
   private constructor() {
@@ -169,7 +188,7 @@ export class MapsTurboManager{
       };
       try {
         site.reverseGeocode(params).then((reverseGeocodeResult)=>{
-          console.info(TAG, "MapsTurboManager.getAddressFromCoordinates success=" + JSON.stringify(reverseGeocodeResult));
+          LWLog("MapsTurboManager.getAddressFromCoordinates success=" + JSON.stringify(reverseGeocodeResult));
           let address = {
             name: '',
             thoroughfare: '',
@@ -193,6 +212,69 @@ export class MapsTurboManager{
 
   public setIndoorActiveLevelIndex(activeLevelIndex: number) {
     //todo 暂无对应api实现
+  }
+
+  public takeSnapshot(ctx: RNOHContext, config: SnapshotOptions): Promise<string>{
+    return new Promise((resolve, reject) => {
+      let width = config.width;
+      let height = config.height;
+      let quality = config.quality * 100;
+      let format = config.format === 'png'?'image/png':'image/jpg'
+      LWLog('MapsTurboManager.takeSnapshot------>width=' + width + ' height=' + height + ' quality=' + quality + ' format=' + format);
+      let option: staticMap.StaticMapOptions = {
+        location: {
+          latitude: config.region?.latitude,
+          longitude: config.region?.longitude
+        },
+        zoom: DEFAULT_ZOOM,
+        imageWidth: width,
+        imageHeight: height,
+        scale: 1,
+      };
+      try {
+        staticMap.getMapImage(option).then(async (value) => {
+          let imagePixel = value;
+          if (config.result === 'file') {
+            let cacheFilePath = ctx.uiAbilityContext.cacheDir + '/' + 'static_map.' + config.format;
+            let cacheFileUrl = "file://" + cacheFilePath;
+            await this.savePixel2File(imagePixel, cacheFilePath);
+            resolve(cacheFileUrl);
+          }else {
+            const imagePackerApi: image.ImagePacker = image.createImagePacker();
+            let packOpts: image.PackingOption = { format: format, quality: quality };
+            imagePackerApi.packing(imagePixel, packOpts).then((readBuffer)=>{
+              let bufferArr = new Uint8Array(readBuffer)
+              let help = new util.Base64Helper
+              var base = help.encodeToStringSync(bufferArr)
+              base = 'data:image/jpg;base64,' + base;
+              LWLog('success to create pixelmap. base64=' + base);
+              resolve(base);
+            });
+          }
+        });
+      } catch (err) {
+        let errInfo = "getStaticMap fail err=" + JSON.stringify(err);
+        LWError(errInfo);
+        reject(errInfo)
+      }
+    });
+  }
+
+  public async savePixel2File(pm: image.PixelMap, filePath: string){
+    try {
+      LWLog('保存文件路径：' + filePath + ' 文件大小：' + pm.getPixelBytesNumber());
+      const imagePackerApi: image.ImagePacker = image.createImagePacker();
+      let packOpts: image.PackingOption = { format: 'image/png', quality: 100 };
+
+      let data: ArrayBuffer = await imagePackerApi.packing(pm, packOpts);
+      let file: fs.File = fs.openSync(filePath, fs.OpenMode.READ_WRITE | fs.OpenMode.CREATE);
+      fs.writeSync(file.fd, data);
+      fs.closeSync(file);
+      // /data/storage/....  加上file://前缀
+      LWLog('保存文件成功，路径:' + filePath);
+    } catch (err) {
+      LWLog('保存文件失败，err=' + JSON.stringify(err));
+    }
   }
 
   //marker
