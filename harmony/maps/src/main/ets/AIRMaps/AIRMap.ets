@@ -58,6 +58,7 @@ export struct AIRMap {
     this.cleanUpCallbacks.push(this.ctx.descriptorRegistry.subscribeToDescriptorChanges(this.tag,
       (newDescriptor) => {
         this.descriptor = (newDescriptor as AIRMapDescriptor)
+        LWLog('AIRMap.subscribeToDescriptorChanges=' + JSON.stringify(newDescriptor))
       }
     ));
 
@@ -218,6 +219,16 @@ export struct AIRMap {
   }
 
   aboutToDisappear() {
+    this.mapController?.off('mapLoad', ()=>{});
+    this.mapController?.off('mapClick', ()=>{});
+    this.mapController?.off('mapLongClick', ()=>{});
+    this.mapController?.off('markerClick', ()=>{});
+    this.mapController?.off('markerDrag', ()=>{});
+    this.mapController?.off('markerDragEnd', ()=>{});
+    this.mapController?.off('markerDragStart', ()=>{});
+    this.mapController?.off('cameraChange', ()=>{});
+    this.mapController?.off('cameraMove', ()=>{});
+    this.mapController?.off('poiClick', ()=>{});
     this.cleanUpCallbacks.forEach(cb => cb())
     MapsManager.getInstance().initMapComponentController(undefined);
   }

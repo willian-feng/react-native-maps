@@ -60,6 +60,16 @@ export class MapsManager{
   
   initMapComponentController(controller?: map.MapComponentController){
     LWLog('MapsManager.initMapComponentController----->controller=' + controller)
+    if (!controller) {
+      //释放controller
+      if (this.mapController) {
+        this.mapController?.off('markerClick', ()=>{});
+        this.mapController?.off('markerDragStart', ()=>{});
+        this.mapController?.off('markerDrag', ()=>{});
+        this.mapController?.off('markerDragEnd', ()=>{});
+        this.mapController?.off('infoWindowClick', ()=>{});
+      }
+    }
     this.mapController = controller;
     MapsTurboManager.getInstance().initMapComponentController(this.mapController);
     this.initMapController = this.mapController?true:false;
@@ -105,6 +115,7 @@ export class MapsManager{
     this.mapController.addMarker(markerOptions).then(marker => {
       LWLog('MapsManager.addMarker----------marker=' + marker.getId())
       _this.setMarker(marker);
+
       this.mapController?.on("markerClick", (marker)=>{
         _this.ctx.rnInstance.emitComponentEvent(_this.descriptor.tag, AIR_MAP_MARKER_TYPE, { type: "onPress" });
         if (marker.getTitle()) {
@@ -340,7 +351,7 @@ export class MapsManager{
     }
   }
 
-  getPointX(target: Point, defaultValue: number){
+  public getPointX(target: Point, defaultValue: number){
     if (target && target.x) {
       return target.x;
     }

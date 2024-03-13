@@ -45,8 +45,19 @@ export struct AIRMapMarker {
     this.cleanUpCallbacks.push(this.ctx.descriptorRegistry.subscribeToDescriptorChanges(this.tag,
       (newDescriptor) => {
         this.descriptor = (newDescriptor as AIRMapMarkerDescriptor)
-       LWLog('AIRMapMarker.subscribeToDescriptorChanges=' + JSON.stringify(this.descriptor))
-        MapsManager.getInstance().addMarker(this, true);
+        LWLog('AIRMapMarker.subscribeToDescriptorChanges=' + JSON.stringify(newDescriptor));
+        this.marker?.setPosition({latitude: this.descriptor.rawProps.coordinate.latitude, longitude: this.descriptor.rawProps.coordinate.longitude})
+        this.marker?.setRotation(this.descriptor.rawProps.rotation);
+        this.marker?.setZIndex(this.descriptor.rawProps.zIndex);
+        this.marker?.setAlpha(this.descriptor.rawProps.opacity?this.descriptor.rawProps.opacity:1.0);
+        this.marker?.setMarkerAnchor(MapsManager.getInstance().getPointX(this.descriptor.rawProps.anchor, 0.5), MapsManager.getInstance().getPointX(this.descriptor.rawProps.anchor, 1));
+        this.marker?.setClickable(this.descriptor.rawProps.tappable===undefined?true:this.descriptor.rawProps.tappable);
+        this.marker?.setDraggable(this.descriptor.rawProps.draggable===undefined?true:this.descriptor.rawProps.draggable);
+        this.marker?.setIcon(MapsManager.getInstance().imageSourceConvert(this.descriptor.rawProps.image));
+        this.marker?.setTitle(this.descriptor.rawProps.title);
+        this.marker?.setSnippet(this.descriptor.rawProps.description);
+        this.marker?.setFlat(this.descriptor.rawProps.flat);
+        this.marker?.setInfoWindowAnchor(MapsManager.getInstance().getPointX(this.descriptor.rawProps.calloutAnchor, 0.5), MapsManager.getInstance().getPointX(this.descriptor.rawProps.calloutAnchor, 0));
       }
     ));
     this.cleanUpCallbacks.push(this.ctx.componentCommandReceiver.registerCommandCallback(
