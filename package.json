@@ -5,7 +5,7 @@
   "main": "lib/index.js",
   "author": "Leland Richardson <leland.m.richardson@gmail.com>",
   "homepage": "https://github.com/react-native-maps/react-native-maps#readme",
-  "version": "1.10.3-0.0.1",
+  "version": "1.10.3-0.0.2",
   "license": "MIT",
   "scripts": {
     "lint": "eslint . --max-warnings 0",
@@ -75,7 +75,8 @@
     "typescript": "5.0.4"
   },
   "dependencies": {
-    "@types/geojson": "^7946.0.13"
+    "@types/geojson": "^7946.0.13",
+	"react-native-maps": "1.10.3"
   },
   "jest": {
     "preset": "react-native",
@@ -86,5 +87,8 @@
   },
   "engines": {
     "node": ">=18"
+  },
+  "harmony": {
+	  "alias": "react-native-maps"
   }
 }
