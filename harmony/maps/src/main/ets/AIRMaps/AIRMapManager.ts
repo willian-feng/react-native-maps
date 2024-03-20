@@ -57,7 +57,7 @@ export class AIRMapManager extends TurboModule {
    * @return Promise Promise with the bounding box ({ northEast: <LatLng>, southWest: <LatLng> })
    */
   public getMapBoundaries(){
-    //todo 暂无对应api实现
+    return MapsTurboManager.getInstance().getMapBoundaries();
   }
 
   /**
@@ -83,7 +83,7 @@ export class AIRMapManager extends TurboModule {
    * @return Promise Promise with the point ({ x: Number, y: Number })
    */
   public pointForCoordinate(coordinate: LatLng){
-    //todo 暂无对应api实现
+    return MapsTurboManager.getInstance().pointForCoordinate(coordinate);
   }
 
   /**
@@ -96,7 +96,7 @@ export class AIRMapManager extends TurboModule {
    * @return Promise Promise with the coordinate ({ latitude: Number, longitude: Number })
    */
   public coordinateForPoint(point: Point){
-    //todo 暂无对应api实现
+    return MapsTurboManager.getInstance().coordinateForPoint(point);
   }
 
   /**
@@ -107,7 +107,7 @@ export class AIRMapManager extends TurboModule {
    * @return Promise Promise with { <identifier>: { point: Point, frame: Frame } }
    */
   public getMarkersFrames(onlyVisible: Boolean){
-    //todo 暂无对应api实现
+    //todo 华为地图不支持
   }
 
   public animateToRegion(region: Region, duration: number) {
@@ -131,7 +131,7 @@ export class AIRMapManager extends TurboModule {
    * @param animated
    */
   public fitToElements(edgePadding: EdgePadding, animated: boolean) {
-    //todo 暂无对应api实现
+    //todo 华为地图不支持 地图加载kml数据后的操作
   }
 
   /**
@@ -142,7 +142,7 @@ export class AIRMapManager extends TurboModule {
    * @param animated
    */
   public fitToSuppliedMarkers(markers: string[], edgePadding: EdgePadding, animated: boolean) {
-    //todo 暂无对应api实现
+    //todo 华为地图不支持
   }
 
   /**
@@ -167,6 +167,6 @@ export class AIRMapManager extends TurboModule {
   }
 
   public setIndoorActiveLevelIndex(activeLevelIndex: number) {
-    //todo 暂无对应api实现
+    //todo 华为地图不支持
   }
 }

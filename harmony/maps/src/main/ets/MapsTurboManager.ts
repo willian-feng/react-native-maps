@@ -24,7 +24,9 @@ import { map, mapCommon, site, staticMap } from '@kit.MapKit';
 import { LWError, LWLog } from './LWLog';
 import {
   Address,
-  Camera, ColorMap, DEFAULT_ZOOM, EdgePadding, ImageURISource, LatLng, Region,
+  Camera, ColorMap, DEFAULT_ZOOM, EdgePadding, ImageURISource, LatLng,
+  Point,
+  Region,
   SnapshotOptions,
   TAG } from './sharedTypes';
 import { image } from '@kit.ImageKit';
@@ -34,6 +36,7 @@ import fs from '@ohos.file.fs';
 import { RNOHContext } from 'rnoh/ts';
 
 export class MapsTurboManager{
+
   private constructor() {
   }
 
@@ -174,6 +177,40 @@ export class MapsTurboManager{
     this.mapController?.setLatLngBounds({northeast: northEast, southwest: southWest})
   }
 
+  getMapBoundaries() {
+    try {
+      let bounds = this.mapController?.getProjection().getVisibleRegion();
+      let north = bounds.bounds.northeast;
+      let south = bounds.bounds.southwest;
+      return {
+        northEast: north,
+        southWest: south,
+      };
+    } catch (e) {
+      LWError('getMapBoundaries exception=' + JSON.stringify(e));
+    }
+    return {};
+  }
+
+  pointForCoordinate(coordinate: LatLng) {
+    try {
+      let mapPoint: mapCommon.MapPoint = this.mapController?.getProjection().toScreenLocation({latitude: coordinate.latitude, longitude: coordinate.longitude});
+      return {x: mapPoint?.positionX, y: mapPoint?.positionY};
+    } catch (e) {
+      LWError('pointForCoordinate exception=' + JSON.stringify(e));
+    }
+    return {};
+  }
+
+  coordinateForPoint(point: Point) {
+    try {
+      return this.mapController?.getProjection().fromScreenLocation({positionX: point.x, positionY: point.y});
+    } catch (e) {
+      LWError('coordinateForPoint exception=' + JSON.stringify(e));
+    }
+    return {};
+  }
+
   public getAddressFromCoordinates(coordinate: LatLng): Promise<Address> {
     return new Promise((resolve, reject) => {
       let params: site.ReverseGeocodeParams = {
@@ -283,6 +320,10 @@ export class MapsTurboManager{
   }
 
   public hideCallout(){
+
+  }
+
+  public redraw() {
 
   }
 }

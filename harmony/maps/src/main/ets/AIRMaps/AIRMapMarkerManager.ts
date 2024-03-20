@@ -58,6 +58,6 @@ export class AIRMapMarkerManager extends TurboModule {
    * Causes a redraw of the marker. Useful when there are updates to the marker and tracksViewChanges comes with a cost that is too high.
    */
   public redraw(){
-    //todo 华为地图不支持
+    MapsTurboManager.getInstance().redraw();
   }
 }

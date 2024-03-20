@@ -73,11 +73,12 @@ export struct AIRMapMarker {
             this.marker.setInfoWindowVisible(false);
           }
         } else if (command === 'redrawCallout') {
-          //todo 华为地图不支持
+          //todo 华为地图不支持 当infoWindow为自定义view的时候，调用此方法更新infoWindow里的内容
         } else if (command === 'animateMarkerToCoordinate') {
           //todo 华为地图不支持
         } else if (command === 'redraw') {
-          //todo 华为地图不支持
+          this.marker?.remove();
+          MapsManager.getInstance().addMarker(this, false);
         }
       }));
 

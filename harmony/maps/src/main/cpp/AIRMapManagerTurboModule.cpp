@@ -65,6 +65,19 @@ static jsi::Value __hostFunction_AIRMapManagerTurboModule_getAddressFromCoordina
     return static_cast<ArkTSTurboModule &>(turboModule).callAsync(rt, "getAddressFromCoordinates", args, count);
 }
 
+static jsi::Value __hostFunction_AIRMapManagerTurboModule_pointForCoordinate(jsi::Runtime &rt,
+                                                                                    react::TurboModule &turboModule,
+                                                                                    const jsi::Value *args,
+                                                                                    size_t count) {
+    return static_cast<ArkTSTurboModule &>(turboModule).call(rt, "pointForCoordinate", args, count);
+}
+
+static jsi::Value __hostFunction_AIRMapManagerTurboModule_coordinateForPoint(jsi::Runtime &rt,
+                                                                             react::TurboModule &turboModule,
+                                                                             const jsi::Value *args, size_t count) {
+    return static_cast<ArkTSTurboModule &>(turboModule).call(rt, "coordinateForPoint", args, count);
+}
+
 AIRMapManagerTurboModule::AIRMapManagerTurboModule(const ArkTSTurboModule::Context ctx, const std::string name)
     : ArkTSTurboModule(ctx, name) {
     methodMap_["getCamera"] = MethodMetadata{0, __hostFunction_AIRMapManagerTurboModule_getCamera};
@@ -77,4 +90,6 @@ AIRMapManagerTurboModule::AIRMapManagerTurboModule(const ArkTSTurboModule::Conte
     methodMap_["getAddressFromCoordinates"] = MethodMetadata{1, __hostFunction_AIRMapManagerTurboModule_getAddressFromCoordinates};
     
     methodMap_["takeSnapshot"] = MethodMetadata{1, __hostFunction_AIRMapManagerTurboModule_takeSnapshot};
+    methodMap_["pointForCoordinate"] = MethodMetadata{1, __hostFunction_AIRMapManagerTurboModule_pointForCoordinate};
+    methodMap_["coordinateForPoint"] = MethodMetadata{1, __hostFunction_AIRMapManagerTurboModule_coordinateForPoint};
 }
