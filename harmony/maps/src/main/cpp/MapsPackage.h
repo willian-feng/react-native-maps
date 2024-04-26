@@ -1,7 +1,6 @@
 #include "ComponentDescriptors.h"
 #include "RNOH/Package.h"
 #include "MapsJSIBinder.h"
-#include "MapsNapiBinder.h"
 #include "MapsEventEmitRequestHandler.h"
 #include "AIRMapManagerTurboModule.h"
 
@@ -53,20 +52,6 @@ namespace rnoh {
                         facebook::react::AIRMapWMSTileComponentDescriptor>(),
                     facebook::react::concreteComponentDescriptorProvider<
                         facebook::react::AIRMapOverlayComponentDescriptor>()};
-        };
-    
-        ComponentNapiBinderByString createComponentNapiBinderByName() override {
-            return {{"AIRMap", std::make_shared<AIRMapNapiBinder>()},
-                    {"AIRMapMarker", std::make_shared<AIRMapMarkerNapiBinder>()},
-                    {"AIRMapPolyline", std::make_shared<AIRMapPolylineNapiBinder>()},
-                    {"AIRMapPolygon", std::make_shared<AIRMapPolygonNapiBinder>()},
-                    {"AIRMapCircle", std::make_shared<AIRMapCircleNapiBinder>()},
-                    {"AIRMapCallout", std::make_shared<AIRMapCalloutNapiBinder>()},
-                    {"AIRMapCalloutSubview", std::make_shared<AIRMapCalloutSubviewNapiBinder>()},
-                    {"Geojson", std::make_shared<GeojsonNapiBinder>()},
-                    {"AIRMapUrlTile", std::make_shared<AIRMapUrlTileNapiBinder>()},
-                    {"AIRMapWMSTile", std::make_shared<AIRMapWMSTileNapiBinder>()},
-                    {"AIRMapOverlay", std::make_shared<AIRMapOverlayNapiBinder>()}};
         };
     
         ComponentJSIBinderByString createComponentJSIBinderByName() override {

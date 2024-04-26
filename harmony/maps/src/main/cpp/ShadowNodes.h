@@ -11,9 +11,8 @@
 #pragma once
 
 #include "EventEmitters.h"
-#include "Props.h"
-#include "States.h"
 #include <react/renderer/components/view/ConcreteViewShadowNode.h>
+#include <react/renderer/components/view/ViewShadowNode.h>
 #include <jsi/jsi.h>
 
 namespace facebook {
@@ -44,28 +43,27 @@ JSI_EXPORT extern const char AIRMapOverlayComponentName[];
 /*
  * `ShadowNode` for <AIRMap> component.
  */
-using AIRMapShadowNode = ConcreteViewShadowNode<AIRMapComponentName, AIRMapProps, AIRMapEventEmitter, AIRMapState>;
+using AIRMapShadowNode = ConcreteViewShadowNode<AIRMapComponentName, ViewProps, AIRMapEventEmitter>;
 
-using AIRMapMarkerShadowNode = ConcreteViewShadowNode<AIRMapMarkerComponentName, AIRMapMarkerProps, AIRMapMarkerEventEmitter, AIRMapMarkerState>;
+using AIRMapMarkerShadowNode = ConcreteViewShadowNode<AIRMapMarkerComponentName, ViewProps, AIRMapMarkerEventEmitter>;
 
-using AIRMapPolylineShadowNode = ConcreteViewShadowNode<AIRMapPolylineComponentName, AIRMapPolylineProps, AIRMapPolylineEventEmitter, AIRMapPolylineState>;
+using AIRMapPolylineShadowNode = ConcreteViewShadowNode<AIRMapPolylineComponentName, ViewProps, AIRMapPolylineEventEmitter>;
 
-using AIRMapPolygonShadowNode = ConcreteViewShadowNode<AIRMapPolygonComponentName, AIRMapPolygonProps, AIRMapPolygonEventEmitter, AIRMapPolygonState>;
+using AIRMapPolygonShadowNode = ConcreteViewShadowNode<AIRMapPolygonComponentName, ViewProps, AIRMapPolygonEventEmitter>;
 
-using AIRMapCircleShadowNode = ConcreteViewShadowNode<AIRMapCircleComponentName, AIRMapCircleProps, AIRMapCircleEventEmitter, AIRMapCircleState>;
+using AIRMapCircleShadowNode = ConcreteViewShadowNode<AIRMapCircleComponentName, ViewProps, AIRMapCircleEventEmitter>;
 
-using AIRMapCalloutShadowNode = ConcreteViewShadowNode<AIRMapCalloutComponentName, AIRMapCalloutProps, AIRMapCalloutEventEmitter, AIRMapCalloutState>;
+using AIRMapCalloutShadowNode = ConcreteViewShadowNode<AIRMapCalloutComponentName, ViewProps, AIRMapCalloutEventEmitter>;
 
-using AIRMapCalloutSubviewShadowNode = ConcreteViewShadowNode<AIRMapCalloutSubviewComponentName, AIRMapCalloutSubviewProps,
-                                                       AIRMapCalloutSubviewEventEmitter, AIRMapCalloutSubviewState>;
+using AIRMapCalloutSubviewShadowNode = ConcreteViewShadowNode<AIRMapCalloutSubviewComponentName, ViewProps, AIRMapCalloutSubviewEventEmitter>;
 
-using GeojsonShadowNode =ConcreteViewShadowNode<GeojsonComponentName, GeojsonProps, GeojsonEventEmitter, GeojsonState>;
+using GeojsonShadowNode =ConcreteViewShadowNode<GeojsonComponentName, ViewProps, GeojsonEventEmitter>;
 
-using AIRMapUrlTileShadowNode = ConcreteViewShadowNode<AIRMapUrlTileComponentName, AIRMapUrlTileProps, AIRMapUrlTileEventEmitter, AIRMapUrlTileState>;
+using AIRMapUrlTileShadowNode = ConcreteViewShadowNode<AIRMapUrlTileComponentName, ViewProps, AIRMapUrlTileEventEmitter>;
 
-using AIRMapWMSTileShadowNode = ConcreteViewShadowNode<AIRMapWMSTileComponentName, AIRMapWMSTileProps, AIRMapWMSTileEventEmitter, AIRMapWMSTileState>;
+using AIRMapWMSTileShadowNode = ConcreteViewShadowNode<AIRMapWMSTileComponentName, ViewProps, AIRMapWMSTileEventEmitter>;
 
-using AIRMapOverlayShadowNode = ConcreteViewShadowNode<AIRMapOverlayComponentName, AIRMapOverlayProps, AIRMapOverlayEventEmitter, AIRMapOverlayState>;
+using AIRMapOverlayShadowNode = ConcreteViewShadowNode<AIRMapOverlayComponentName, ViewProps, AIRMapOverlayEventEmitter>;
 
 } // namespace react
 } // namespace facebook

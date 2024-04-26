@@ -20,12 +20,7 @@
  * SOFTWARE.
  */
 
-import { Descriptor, ComponentBuilderContext, ViewBaseProps, ViewRawProps, RNViewBase,
-  rnComponentFactoryBuilder,
-  Tag
-} from 'rnoh';
-import { RNOHContext } from 'rnoh'
-import { LatLng, Region, TAG } from '../sharedTypes';
+import { ComponentBuilderContext, RNViewBase, Tag, RNComponentContext } from '@rnoh/react-native-openharmony';
 import { GeojsonDescriptor } from './AIRMapDescriptorTypes';
 import { MapsManager } from '../MapsManager';
 import { LWLog } from '../LWLog';
@@ -34,7 +29,7 @@ export const AIR_GEOJSON_TYPE: string = "Geojson"
 
 @Component
 export struct Geojson {
-  ctx!: RNOHContext
+  ctx!: RNComponentContext
   tag: number = 0
   @BuilderParam buildCustomComponent: (componentBuilderContext: ComponentBuilderContext) => void
   @State descriptor: GeojsonDescriptor = {} as GeojsonDescriptor
@@ -66,7 +61,7 @@ export struct Geojson {
     RNViewBase({ ctx: this.ctx, tag: this.tag }) {
       Stack(){
         ForEach(this.descriptor.childrenTags, (tag: Tag) => {
-          rnComponentFactoryBuilder(this.ctx, tag, this.ctx.rnInstance.getComponentNameFromDescriptorType(this.ctx.descriptorRegistry.getDescriptor(tag)?.type))
+
         }, (tag: Tag) => tag.toString())
       }
     }

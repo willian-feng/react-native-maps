@@ -20,9 +20,7 @@
  * SOFTWARE.
  */
 
-import { Descriptor, ComponentBuilderContext, ViewBaseProps, ViewRawProps } from 'rnoh';
-import { RNOHContext } from 'rnoh'
-import { LatLng, Region, TAG } from '../sharedTypes';
+import { ComponentBuilderContext, RNComponentContext } from '@rnoh/react-native-openharmony';
 import { AIRMapCircleDescriptor } from './AIRMapDescriptorTypes';
 import { MapsManager } from '../MapsManager';
 import { LWLog } from '../LWLog';
@@ -33,7 +31,7 @@ export const AIR_MAP_CIRCLE_TYPE: string = "AIRMapCircle"
 
 @Component
 export struct AIRMapCircle {
-  ctx!: RNOHContext
+  ctx!: RNComponentContext
   tag: number = 0
   @BuilderParam buildCustomComponent: (componentBuilderContext: ComponentBuilderContext) => void
   @State descriptor: AIRMapCircleDescriptor = {} as AIRMapCircleDescriptor

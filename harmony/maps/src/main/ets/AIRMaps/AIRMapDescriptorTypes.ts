@@ -20,11 +20,11 @@
  * SOFTWARE.
  */
 
-import { Descriptor, ViewBaseProps, ViewRawProps } from 'rnoh/ts';
+import { Descriptor, ViewBaseProps, ViewRawProps } from '@rnoh/react-native-openharmony/ts';
 import { Camera, EdgePadding, LatLng, MapStyleElement, MapType, Region, Point, GeoJSON } from '../sharedTypes';
 
 export interface AIRMapState {}
-export interface AIRMapProps extends ViewRawProps {
+export interface AIRMapRawProps extends ViewRawProps {
   cacheEnabled?: boolean;
   camera?: Camera;
   customMapStyle?: MapStyleElement[];
@@ -59,8 +59,7 @@ export interface AIRMapProps extends ViewRawProps {
   provider: string;
   userLocationAnnotationTitle: string;
 }
-// export type AIRMapDescriptor = Descriptor<"AIRMap", AIRMapProps>
-export type AIRMapDescriptor = Descriptor<"AIRMap", ViewBaseProps, AIRMapState, AIRMapProps>
+export type AIRMapDescriptor = Descriptor<"AIRMap", ViewBaseProps, AIRMapState, AIRMapRawProps>
 
 export interface AIRMapMarkerState {}
 export interface AIRMapMarkerRawProps extends ViewRawProps {

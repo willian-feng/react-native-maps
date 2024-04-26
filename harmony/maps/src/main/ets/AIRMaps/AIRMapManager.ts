@@ -20,11 +20,27 @@
  * SOFTWARE.
  */
 
-import { TurboModule, RNOHError } from 'rnoh/ts';
+import { TurboModule, RNOHError, RNOHContext } from '@rnoh/react-native-openharmony/ts';
 import { MapsTurboManager } from '../MapsTurboManager';
 import { Camera, EdgePadding, LatLng, Point, Region, SnapshotOptions, TAG } from '../sharedTypes';
 
 export class AIRMapManager extends TurboModule {
+  // constructor(ctx: RNOHContext) {
+  //   super(ctx);
+  //   MapsTurboManager.getInstance().
+  //   ctx.descriptorRegistry.subscribeToDescriptorChanges(this.tag,
+  //     (newDescriptor) => {
+  //
+  //       this.descriptor = (newDescriptor as AIRMapDescriptor)
+  //       LWLog('AIRMap.subscribeToDescriptorChanges=' + JSON.stringify(newDescriptor))
+  //     }
+  //   )
+  // }
+
+  public __onDestroy__(): void {
+  }
+
+
 
   /**
    * Like animateCamera, but sets the new view instantly, without an animation.
@@ -108,6 +124,7 @@ export class AIRMapManager extends TurboModule {
    */
   public getMarkersFrames(onlyVisible: Boolean){
     //todo 华为地图不支持
+    MapsTurboManager.getInstance().getMarkersFrames(onlyVisible);
   }
 
   public animateToRegion(region: Region, duration: number) {

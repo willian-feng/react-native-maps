@@ -20,7 +20,7 @@
  * SOFTWARE.
  */
 
-import { RNOHContext, RNViewBase, ComponentBuilderContext, Tag, rnComponentFactoryBuilder, } from 'rnoh';
+import { RNViewBase, Tag, RNComponentContext, ComponentBuilderContext} from '@rnoh/react-native-openharmony';
 
 import abilityAccessCtrl, { Permissions } from '@ohos.abilityAccessCtrl';
 import common from '@ohos.app.ability.common';
@@ -28,6 +28,7 @@ import {map, mapCommon, MapComponent} from '@kit.MapKit'
 import { AsyncCallback, BusinessError } from '@kit.BasicServicesKit';
 import { bundleManager } from '@kit.AbilityKit';
 
+import { mapsComponentFactoryBuilder } from '../MapsComponentFactory'
 import { Camera, DEFAULT_ZOOM, EdgePadding, LatLng, Region, TAG } from '../sharedTypes';
 import { MapsManager } from '../MapsManager';
 import { AIRMapDescriptor } from './AIRMapDescriptorTypes';
@@ -41,12 +42,10 @@ const permissions: Array<Permissions> = ['ohos.permission.INTERNET', 'ohos.permi
 
 @Component
 export struct AIRMap {
-  ctx!: RNOHContext
+  ctx!: RNComponentContext
   tag: number = 0
   @BuilderParam public renderChildren: () => void
-  @BuilderParam buildCustomComponent: (componentBuilderContext: ComponentBuilderContext) => void
   @State descriptor: AIRMapDescriptor = {} as AIRMapDescriptor
-
   protected cleanUpCallbacks: (() => void)[] = []
   private callback?: AsyncCallback<map.MapComponentController>;
   private mapController?: map.MapComponentController = undefined;
@@ -326,7 +325,11 @@ export struct AIRMap {
         // 调用MapComponent组件初始化地图
         MapComponent({ mapOptions: this.mapOptions, mapCallback: this.callback }).width('100%').height('100%');
         ForEach(this.descriptor.childrenTags, (tag: Tag) => {
-          rnComponentFactoryBuilder(this.ctx, tag, this.ctx.rnInstance.getComponentNameFromDescriptorType(this.ctx.descriptorRegistry.getDescriptor(tag)?.type))
+          // this.ctx.wrappedRNChildrenBuilder.builder(this.ctx, tag)
+          mapsComponentFactoryBuilder(
+            this.ctx,
+            tag,
+            this.ctx.rnInstance.getComponentNameFromDescriptorType(this.ctx.descriptorRegistry.getDescriptor(tag)?.type))
         }, (tag: Tag) => tag.toString())
       }
     }

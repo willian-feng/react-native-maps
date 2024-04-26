@@ -20,10 +20,7 @@
  * SOFTWARE.
  */
 
-import { Descriptor, ComponentBuilderContext, ViewBaseProps, ViewRawProps, rnComponentFactoryBuilder, Tag,
-  RNViewManager } from 'rnoh';
-import { RNOHContext, RNViewBase } from 'rnoh'
-import { ImageURISource, Region, TAG } from '../sharedTypes';
+import { RNViewBase, ComponentBuilderContext, Tag, RNComponentContext } from '@rnoh/react-native-openharmony';
 import { MapsManager } from '../MapsManager';
 import { mapCommon, map } from '@kit.MapKit';
 import { AIRMapMarkerDescriptor } from './AIRMapDescriptorTypes';
@@ -33,7 +30,7 @@ export const AIR_MAP_MARKER_TYPE: string = "AIRMapMarker"
 
 @Component
 export struct AIRMapMarker {
-  ctx!: RNOHContext
+  ctx!: RNComponentContext
   tag: number = 0
   @BuilderParam buildCustomComponent: (componentBuilderContext: ComponentBuilderContext) => void
   @State descriptor: AIRMapMarkerDescriptor = {} as AIRMapMarkerDescriptor
@@ -75,7 +72,12 @@ export struct AIRMapMarker {
         } else if (command === 'redrawCallout') {
           //todo 华为地图不支持 当infoWindow为自定义view的时候，调用此方法更新infoWindow里的内容
         } else if (command === 'animateMarkerToCoordinate') {
-          //todo 华为地图不支持
+          let animation = new map.TranslateAnimation(args[0]);
+          if (args.length > 1) {
+            animation.setDuration(args[1]);
+          }
+          this.marker?.setAnimation(animation);
+          this.marker?.startAnimation();
         } else if (command === 'redraw') {
           this.marker?.remove();
           MapsManager.getInstance().addMarker(this, false);
@@ -105,7 +107,7 @@ export struct AIRMapMarker {
     RNViewBase({ ctx: this.ctx, tag: this.tag }) {
       Stack(){
         ForEach(this.descriptor.childrenTags, (tag: Tag) => {
-          rnComponentFactoryBuilder(this.ctx, tag, this.ctx.rnInstance.getComponentNameFromDescriptorType(this.ctx.descriptorRegistry.getDescriptor(tag)?.type))
+
         }, (tag: Tag) => tag.toString())
       }
     }

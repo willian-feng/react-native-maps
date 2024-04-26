@@ -20,9 +20,7 @@
  * SOFTWARE.
  */
 
-import { Descriptor, ComponentBuilderContext, ViewBaseProps, ViewRawProps } from 'rnoh';
-import { RNOHContext } from 'rnoh'
-import { LatLng, Region, TAG } from '../sharedTypes';
+import { ComponentBuilderContext, RNComponentContext } from '@rnoh/react-native-openharmony';
 import { AIRMapPolygonDescriptor } from './AIRMapDescriptorTypes';
 import { MapsManager } from '../MapsManager';
 import { LWLog } from '../LWLog';
@@ -31,7 +29,7 @@ export const AIR_MAP_POLYGON_TYPE: string = "AIRMapPolygon"
 
 @Component
 export struct AIRMapPolygon {
-  ctx!: RNOHContext
+  ctx!: RNComponentContext
   tag: number = 0
   @BuilderParam buildCustomComponent: (componentBuilderContext: ComponentBuilderContext) => void
   @State descriptor: AIRMapPolygonDescriptor = {} as AIRMapPolygonDescriptor

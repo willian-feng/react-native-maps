@@ -20,12 +20,7 @@
  * SOFTWARE.
  */
 
-import { Descriptor, ComponentBuilderContext, ViewBaseProps, ViewRawProps, RNViewBase,
-  rnComponentFactoryBuilder,
-  Tag
-} from 'rnoh';
-import { RNOHContext } from 'rnoh'
-import { LatLng, Region, TAG } from '../sharedTypes';
+import { ComponentBuilderContext, RNViewBase, Tag, RNComponentContext } from '@rnoh/react-native-openharmony';
 import { AIRMapUrlTileDescriptor } from './AIRMapDescriptorTypes';
 import { MapsManager } from '../MapsManager';
 import { LWLog } from '../LWLog';
@@ -34,7 +29,7 @@ export const AIR_URLTILE_TYPE: string = "AIRMapUrlTile"
 
 @Component
 export struct AIRMapUrlTile {
-  ctx!: RNOHContext
+  ctx!: RNComponentContext
   tag: number = 0
   @BuilderParam buildCustomComponent: (componentBuilderContext: ComponentBuilderContext) => void
   @State descriptor: AIRMapUrlTileDescriptor = {} as AIRMapUrlTileDescriptor
@@ -66,7 +61,7 @@ export struct AIRMapUrlTile {
     RNViewBase({ ctx: this.ctx, tag: this.tag }) {
       Stack(){
         ForEach(this.descriptor.childrenTags, (tag: Tag) => {
-          rnComponentFactoryBuilder(this.ctx, tag, this.ctx.rnInstance.getComponentNameFromDescriptorType(this.ctx.descriptorRegistry.getDescriptor(tag)?.type))
+
         }, (tag: Tag) => tag.toString())
       }
     }

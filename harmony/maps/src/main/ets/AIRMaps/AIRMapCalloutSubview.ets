@@ -20,10 +20,7 @@
  * SOFTWARE.
  */
 
-import { Descriptor, ComponentBuilderContext, ViewBaseProps, ViewRawProps, RNViewBase, Tag,
-  rnComponentFactoryBuilder } from 'rnoh';
-import { RNOHContext } from 'rnoh'
-import { LatLng, Region, TAG } from '../sharedTypes';
+import { ComponentBuilderContext, RNComponentContext, RNViewBase, Tag } from '@rnoh/react-native-openharmony';
 import { MapsManager } from '../MapsManager';
 import { AIRMapCalloutSubviewDescriptor } from './AIRMapDescriptorTypes';
 import { LWLog } from '../LWLog';
@@ -33,7 +30,7 @@ export const AIR_MAP_CALLOUT_SUBVIEW_TYPE: string = "AIRMapCalloutSubview"
 //todo 不支持自定义view显示
 @Component
 export struct AIRMapCalloutSubview {
-  ctx!: RNOHContext
+  ctx!: RNComponentContext
   tag: number = 0
   @BuilderParam buildCustomComponent: (componentBuilderContext: ComponentBuilderContext) => void
   @State descriptor: AIRMapCalloutSubviewDescriptor = {} as AIRMapCalloutSubviewDescriptor
@@ -61,7 +58,7 @@ export struct AIRMapCalloutSubview {
     RNViewBase({ ctx: this.ctx, tag: this.tag }) {
       Stack(){
         ForEach(this.descriptor.childrenTags, (tag: Tag) => {
-          rnComponentFactoryBuilder(this.ctx, tag, this.ctx.rnInstance.getComponentNameFromDescriptorType(this.ctx.descriptorRegistry.getDescriptor(tag)?.type))
+
         }, (tag: Tag) => tag.toString())
       }
     }

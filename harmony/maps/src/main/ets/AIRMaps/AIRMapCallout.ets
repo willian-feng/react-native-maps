@@ -20,11 +20,7 @@
  * SOFTWARE.
  */
 
-import { Descriptor, ComponentBuilderContext, ViewBaseProps, ViewRawProps, RNViewBase,
-  rnComponentFactoryBuilder,
-  Tag
-} from 'rnoh';
-import { RNOHContext } from 'rnoh'
+import { RNViewBase, Tag, RNComponentContext } from '@rnoh/react-native-openharmony';
 import { AIRMapCalloutDescriptor } from './AIRMapDescriptorTypes';
 import { MapsManager } from '../MapsManager';
 import { LWLog } from '../LWLog';
@@ -35,9 +31,8 @@ export const AIR_MAP_CALLOUT_TYPE: string = "AIRMapCallout"
 
 @Component
 export struct AIRMapCallout {
-  ctx!: RNOHContext
+  ctx!: RNComponentContext
   tag: number = 0
-  @BuilderParam buildCustomComponent: (componentBuilderContext: ComponentBuilderContext) => void
   @State descriptor: AIRMapCalloutDescriptor = {} as AIRMapCalloutDescriptor
   private unregisterDescriptorChangesListener?: () => void = undefined
 
@@ -66,7 +61,7 @@ export struct AIRMapCallout {
     RNViewBase({ ctx: this.ctx, tag: this.tag }) {
       Stack(){
         ForEach(this.descriptor.childrenTags, (tag: Tag) => {
-          rnComponentFactoryBuilder(this.ctx, tag, this.ctx.rnInstance.getComponentNameFromDescriptorType(this.ctx.descriptorRegistry.getDescriptor(tag)?.type))
+
         }, (tag: Tag) => tag.toString())
       }
     }

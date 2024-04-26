@@ -20,7 +20,7 @@
  * SOFTWARE.
  */
 
-import { TurboModule, RNOHError } from 'rnoh/ts';
+import { TurboModule, RNOHError } from '@rnoh/react-native-openharmony/ts';
 import { MapsTurboManager } from '../MapsTurboManager';
 import { Camera, LatLng, Point, Region, TAG } from '../sharedTypes';
 
@@ -51,7 +51,7 @@ export class AIRMapMarkerManager extends TurboModule {
    * Animates marker movement. Note: Android only
    */
   public animateMarkerToCoordinate(coordinate: LatLng, duration: number){
-    //todo 华为地图不支持
+    //todo 在Marker中实现
   }
 
   /**

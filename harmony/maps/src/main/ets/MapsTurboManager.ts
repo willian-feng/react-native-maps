@@ -33,7 +33,7 @@ import { image } from '@kit.ImageKit';
 import { BusinessError } from '@kit.BasicServicesKit';
 import { util } from '@kit.ArkTS';
 import fs from '@ohos.file.fs';
-import { RNOHContext } from 'rnoh/ts';
+import { RNOHContext } from '@rnoh/react-native-openharmony/ts';
 
 export class MapsTurboManager{
 
@@ -295,6 +295,10 @@ export class MapsTurboManager{
         reject(errInfo)
       }
     });
+  }
+
+  public getMarkersFrames(onlyVisible: Boolean) {
+
   }
 
   public async savePixel2File(pm: image.PixelMap, filePath: string){

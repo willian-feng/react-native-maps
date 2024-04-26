@@ -319,6 +319,7 @@ export class MapsManager{
 
   imageSourceConvert(target: string){
     //asset://examples_maps_assets_flagblue.png 对应到鸿蒙侧规则：所在文件夹名字下划线分割_替换-的图片名
+    LWLog('MapsManager.imageSourceConvert.target=' + target);
     if (target && target.startsWith("asset://")) {
       return target.replace("asset://", "assets/");
     }
