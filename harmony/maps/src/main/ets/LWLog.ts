@@ -21,7 +21,7 @@
  */
 
 import { TAG } from './sharedTypes'
-const RELEASE = false;
+const RELEASE = true;
 
 export function LWLog(...args: any[]) {
   if (RELEASE) {

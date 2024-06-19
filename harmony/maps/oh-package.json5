@@ -1,8 +1,8 @@
 {
   "name": "@react-native-oh-tpl/react-native-maps",
-  "version": "1.10.3-0.0.4",
+  "version": "1.10.3-0.0.5",
   "description": "Map for React Native",
-  "main": "Index.ets",
+  "main": "index.ets",
   "author": "",
   "license": "Apache-2.0",
   "dependencies": {
