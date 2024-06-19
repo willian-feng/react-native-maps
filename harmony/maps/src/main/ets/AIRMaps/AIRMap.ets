@@ -122,7 +122,13 @@ export struct AIRMap {
                 "speed": 0,
                 "timeStamp": 0,
                 "direction": 0,
-                "timeSinceBoot": 0
+                "timeSinceBoot": 0,
+                //fixme 6.14 liwang新增
+                "altitudeAccuracy": 0,
+                "speedAccuracy": 0,
+                "directionAccuracy": 0,
+                "uncertaintyOfTimeSinceBoot": 0,
+                "sourceType": geoLocationManager.LocationSourceType.GNSS
               };
               this.mapController?.setMyLocation(position);
               this.animateToRegion({latitude: result.latitude, longitude: result.longitude}, 500);
