@@ -142,16 +142,16 @@ export struct AIRMap {
           this.ctx.rnInstance.emitComponentEvent(this.descriptor.tag, AIR_MAP_TYPE, { type: "onMapReady" });
         });
         this.mapController.on("mapClick", (latLng) => {
-         LWLog('AIRMap.aboutToAppear.callback.mapClick', JSON.stringify(latLng));
+          LWLog('AIRMap.aboutToAppear.callback.mapClick', JSON.stringify(latLng));
           this.ctx.rnInstance.emitComponentEvent(this.descriptor.tag, AIR_MAP_TYPE, { type: "onPress", coordinate: latLng });
         });
         this.mapController.on("mapLongClick", (latLng) => {
-         LWLog('AIRMap.aboutToAppear.callback.mapLongClick');
+          LWLog('AIRMap.aboutToAppear.callback.mapLongClick');
           this.ctx.rnInstance.emitComponentEvent(this.descriptor.tag, AIR_MAP_TYPE, { type: "onLongPress", coordinate: latLng });
         });
         //marker
         this.mapController.on("markerClick", (marker) => {
-         LWLog('AIRMap.aboutToAppear.callback.markerClick');
+          LWLog('AIRMap.aboutToAppear.callback.markerClick');
           this.ctx.rnInstance.emitComponentEvent(this.descriptor.tag, AIR_MAP_TYPE, { type: "onMarkerPress", coordinate: marker.getPosition() });
         });
         this.mapController.on("markerDrag", (marker) => {
@@ -159,23 +159,38 @@ export struct AIRMap {
           this.ctx.rnInstance.emitComponentEvent(this.descriptor.tag, AIR_MAP_TYPE, { type: "onMarkerDrag", coordinate: marker.getPosition() });
         });
         this.mapController.on("markerDragEnd", (marker) => {
-         LWLog('AIRMap.aboutToAppear.callback.markerDragEnd');
+          LWLog('AIRMap.aboutToAppear.callback.markerDragEnd');
           this.ctx.rnInstance.emitComponentEvent(this.descriptor.tag, AIR_MAP_TYPE, { type: "onMarkerDragEnd", coordinate: marker.getPosition() });
         });
         this.mapController.on("markerDragStart", (marker) => {
-         LWLog('AIRMap.aboutToAppear.callback.markerDragStart');
+          LWLog('AIRMap.aboutToAppear.callback.markerDragStart');
           this.ctx.rnInstance.emitComponentEvent(this.descriptor.tag, AIR_MAP_TYPE, { type: "onMarkerDragStart", coordinate: marker.getPosition() });
         });
 
         this.mapController.on("cameraChange", (latLng) => {
-         LWLog('AIRMap.aboutToAppear.callback.cameraChange', JSON.stringify(latLng));
-          this.ctx.rnInstance.emitComponentEvent(this.descriptor.tag, AIR_MAP_TYPE, { type: "onRegionChange",
-            region: {
-              latitude: latLng.latitude,
-              longitude: latLng.longitude,
-              latitudeDelta: 0,
-              longitudeDelta: 0
-            }
+          LWLog('AIRMap.aboutToAppear.callback.cameraChange', JSON.stringify(latLng));
+          const projection: map.Projection | undefined = this.mapController?.getProjection();
+          const visibleRegion: mapCommon.VisibleRegion | undefined = projection?.getVisibleRegion();
+          const bounds = visibleRegion?.bounds;
+          let latitudeDelta = 0;
+          let longitudeDelta = 0;
+          if (bounds) {
+            latitudeDelta = bounds.northeast.latitude - bounds.southwest.latitude;
+            longitudeDelta = bounds.northeast.longitude - bounds.southwest.longitude;
+          }
+          const region: Region = {
+            latitude: latLng.latitude,
+            longitude: latLng.longitude,
+            latitudeDelta,
+            longitudeDelta
+          }
+          this.ctx.rnInstance.emitComponentEvent(this.descriptor.tag, AIR_MAP_TYPE, {
+            type: "onRegionChange",
+            region
+          });
+          this.ctx.rnInstance.emitComponentEvent(this.descriptor.tag, AIR_MAP_TYPE, {
+            type: "onRegionChangeComplete",
+            region
           });
         });
         this.mapController.on("cameraMove", () => {

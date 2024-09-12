@@ -35,11 +35,12 @@ namespace rnoh {
         MAP_PRESS = 1,
         MAP_LONG_PRESS = 2,
         MAP_REGION_CHANGE = 3,
-        MAP_MARKER_PRESS = 4,
-        MAP_MARKER_DRAG = 5,
-        MAP_MARKER_DRAG_START = 6,
-        MAP_MARKER_DRAG_END = 7,
-        MAP_POI = 8,
+        MAP_REGION_CHANGE_COMPLETE = 4,
+        MAP_MARKER_PRESS = 5,
+        MAP_MARKER_DRAG = 6,
+        MAP_MARKER_DRAG_START = 7,
+        MAP_MARKER_DRAG_END = 8,
+        MAP_POI = 9,
     };
 
     AIRMapEventType getAIRMapEventType(ArkJS &arkJs, napi_value eventObject) {
@@ -52,6 +53,8 @@ namespace rnoh {
             return AIRMapEventType::MAP_LONG_PRESS;
         } else if (eventType == "onRegionChange") {
             return AIRMapEventType::MAP_REGION_CHANGE;
+        } else if (eventType == "onRegionChangeComplete") {
+            return AIRMapEventType::MAP_REGION_CHANGE_COMPLETE;
         } else if (eventType == "onMarkerPress") {
             return AIRMapEventType::MAP_MARKER_PRESS;
         } else if (eventType == "onMarkerDrag") {
@@ -115,6 +118,17 @@ public:
                 react::AIRMapEventEmitter::onRegionEvent event{region};
                 eventEmitter->onRegionChange(event);
                 } break;
+            case AIRMapEventType::MAP_REGION_CHANGE_COMPLETE: {
+                auto _region = arkJs.getObjectProperty(ctx.payload, "region");
+                facebook::react::Region region = {
+                    (float)arkJs.getDouble(arkJs.getObjectProperty(_region, "latitude")),
+                    (float)arkJs.getDouble(arkJs.getObjectProperty(_region, "longitude")),
+                    (float)arkJs.getDouble(arkJs.getObjectProperty(_region, "longitudeDelta")),
+                    (float)arkJs.getDouble(arkJs.getObjectProperty(_region, "longitudeDelta"))
+                };
+                react::AIRMapEventEmitter::onRegionEvent event{region};
+                eventEmitter->onRegionChangeComplete(event);
+                } break;
             case AIRMapEventType::MAP_MARKER_PRESS: {
                 auto _coordinate = arkJs.getObjectProperty(ctx.payload, "coordinate");
                 facebook::react::Coordinate coordinate = {
@@ -123,7 +137,7 @@ public:
                 react::AIRMapEventEmitter::onPressEvent event{coordinate};
                 eventEmitter->onMarkerPress(event);
                 } break;
-                case AIRMapEventType::MAP_MARKER_DRAG: {
+            case AIRMapEventType::MAP_MARKER_DRAG: {
                 auto _coordinate = arkJs.getObjectProperty(ctx.payload, "coordinate");
                 facebook::react::Coordinate coordinate = {
                     (float)arkJs.getDouble(arkJs.getObjectProperty(_coordinate, "latitude")),
@@ -131,7 +145,7 @@ public:
                 react::AIRMapEventEmitter::onPressEvent event{coordinate};
                 eventEmitter->onMarkerDrag(event);
                 } break;
-                case AIRMapEventType::MAP_MARKER_DRAG_START: {
+            case AIRMapEventType::MAP_MARKER_DRAG_START: {
                 auto _coordinate = arkJs.getObjectProperty(ctx.payload, "coordinate");
                 facebook::react::Coordinate coordinate = {
                     (float)arkJs.getDouble(arkJs.getObjectProperty(_coordinate, "latitude")),
@@ -139,7 +153,7 @@ public:
                 react::AIRMapEventEmitter::onPressEvent event{coordinate};
                 eventEmitter->onMarkerDragStart(event);
                 } break;
-                case AIRMapEventType::MAP_MARKER_DRAG_END: {
+            case AIRMapEventType::MAP_MARKER_DRAG_END: {
                 auto _coordinate = arkJs.getObjectProperty(ctx.payload, "coordinate");
                 facebook::react::Coordinate coordinate = {
                     (float)arkJs.getDouble(arkJs.getObjectProperty(_coordinate, "latitude")),
@@ -147,7 +161,7 @@ public:
                 react::AIRMapEventEmitter::onPressEvent event{coordinate};
                 eventEmitter->onMarkerDragEnd(event);
                 } break;
-                case AIRMapEventType::MAP_POI: {
+            case AIRMapEventType::MAP_POI: {
                 auto _coordinate = arkJs.getObjectProperty(ctx.payload, "coordinate");
                 facebook::react::Coordinate coordinate = {
                     (float)arkJs.getDouble(arkJs.getObjectProperty(_coordinate, "latitude")),

@@ -63,6 +63,7 @@ namespace rnoh {
             events.setProperty(rt, "topPress", createDirectEvent(rt, "onPress"));
             events.setProperty(rt, "topLongPress", createDirectEvent(rt, "onLongPress"));
             events.setProperty(rt, "topRegionChange", createDirectEvent(rt, "onRegionChange"));
+            events.setProperty(rt, "topRegionChangeComplete", createDirectEvent(rt, "onRegionChangeComplete"));
             events.setProperty(rt, "topMarkerPress", createDirectEvent(rt, "onMarkerPress"));
             events.setProperty(rt, "topMarkerDrag", createDirectEvent(rt, "onMarkerDrag"));
             events.setProperty(rt, "topMarkerDragStart", createDirectEvent(rt, "onMarkerDragStart"));
