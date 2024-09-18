@@ -55,6 +55,7 @@ class JSI_EXPORT AIRMapEventEmitter : public ViewEventEmitter {
     void onPress(onPressEvent event) const;
     void onLongPress(onLongPressEvent event) const;
     void onRegionChange(onRegionEvent event) const;
+    void onRegionChangeComplete(onRegionEvent event) const;
 
     void onMarkerPress(onPressEvent event) const;
     void onMarkerDragStart(onPressEvent event) const;

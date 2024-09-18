@@ -56,6 +56,19 @@ namespace react {
         });
     }
 
+    void AIRMapEventEmitter::onRegionChangeComplete(onRegionEvent event) const {
+        dispatchEvent("regionChangeComplete", [event = std::move(event)](jsi::Runtime &runtime) {
+            auto region = jsi::Object(runtime);
+            region.setProperty(runtime, "latitude", event.region.latitude);
+            region.setProperty(runtime, "longitude", event.region.longitude);
+            region.setProperty(runtime, "latitudeDelta", event.region.latitudeDelta);
+            region.setProperty(runtime, "longitudeDelta", event.region.longitudeDelta);
+            auto payload = jsi::Object(runtime);
+            payload.setProperty(runtime, "region", region);
+            return payload;
+        });
+    }
+
     void AIRMapEventEmitter::onMarkerPress(onPressEvent event) const {
         dispatchEvent("markerPress", [event = std::move(event)](jsi::Runtime &runtime) {
             auto coordinate = jsi::Object(runtime);
